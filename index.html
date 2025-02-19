@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ร้านกับข้าวเจ้สุ - ข้อเสนอแนะ/ร้องเรียน</title>
+    <meta name="description" content="ส่งข้อเสนอแนะหรือร้องเรียนกับร้านกับข้าวเจ้สุ เพื่อปรับปรุงบริการให้ดียิ่งขึ้น">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ข้อเสนอแนะ/ร้องเรียน ร้านกับข้าวเจ้สุ</h1>
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="name">ชื่อ-นามสกุล (ไม่บังคับ):</label>
+                <input type="text" id="name" name="name" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="feedback">ข้อเสนอแนะ/ร้องเรียน <span class="required">*</span>:</label>
+                <textarea id="feedback" name="feedback" rows="5" required autocomplete="off"></textarea>
+            </div>
+            <button type="submit" id="submitBtn">ส่งข้อเสนอแนะ/ร้องเรียน</button>
+            <div id="loading" class="hidden">กำลังส่งข้อมูล...</div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
