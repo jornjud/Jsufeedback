@@ -1,5 +1,5 @@
 document.getElementById('feedbackForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // ป้องกันการ refresh หน้าเว็บเมื่อ submit
+    event.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บเมื่อ submit
 
     const submitBtn = document.getElementById('submitBtn');
     const loading = document.getElementById('loading');
@@ -8,9 +8,8 @@ document.getElementById('feedbackForm').addEventListener('submit', function(even
 
     const name = document.getElementById('name').value.trim();
     const feedback = document.getElementById('feedback').value.trim();
-	const device = navigator.userAgent;
 
-    // ตรวจสอบข้อมูล feedback ต้องไม่ว่างเปล่า
+    // ตรวจสอบว่า feedback ไม่ว่างเปล่า
     if (!feedback) {
         alert('กรุณาระบุข้อเสนอแนะ/ร้องเรียน');
         submitBtn.disabled = false;
@@ -18,13 +17,30 @@ document.getElementById('feedbackForm').addEventListener('submit', function(even
         return;
     }
 
+    // ใช้ UAParser.js เพื่อดึงข้อมูลรายละเอียดของอุปกรณ์
+    const parser = new UAParser();
+    const result = parser.getResult();
+    let deviceInfo = '';
+
+    if (result.device.vendor && result.device.model) {
+        deviceInfo += result.device.vendor + ' ' + result.device.model;
+    } else {
+        deviceInfo += 'Device: Unknown';
+    }
+    if (result.os.name && result.os.version) {
+        deviceInfo += ' | OS: ' + result.os.name + ' ' + result.os.version;
+    }
+    if (result.browser.name && result.browser.version) {
+        deviceInfo += ' | Browser: ' + result.browser.name + ' ' + result.browser.version;
+    }
+
     // URL ของ Google Apps Script Web App ของคุณ
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwMTWpK86ui7trIEEb62GiT7iLgIAyP8V1ztJrG6kSOe2kZmbOFWQqqndnCcTWX7zMm/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwC5nQDgNzZgXdtxAQdfy07EhA2V2sOqGvePthlEB2Tuwbs-l5kS8SB3mlwAxDniJ9Z/exec';
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('feedback', feedback);
-	formData.append('device', device);
+    formData.append('device', deviceInfo);
 
     fetch(scriptURL, {
         method: 'POST',
